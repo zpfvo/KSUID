@@ -18,10 +18,18 @@ class ksuid():
     """ The primary classes that encompasses ksuid functionality.
     When given optional timestamp argument, the ksuid will be generated
     with the given timestamp. Else the current time is used.
+
+    The payload argument builds the ksuid with the given payload. Else its random.
+    If the given payload is smaller than 16 it is right padded with 0.
     """
 
-    def __init__(self, timestamp=None):
-        payload = os.urandom(BODY_LENGTH)  # generates the payload
+    def __init__(self, timestamp=None, payload_=None):
+        if payload_ is None:
+            payload = os.urandom(BODY_LENGTH)  # generates the payload
+        else:
+            if len(payload_) > BODY_LENGTH:
+                raise Exception("Wrong payload_ length")
+            payload = payload_.rjust(16, '\0')
         if timestamp is None:
             currTime = int(time.time())
         else:
