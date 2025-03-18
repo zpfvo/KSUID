@@ -29,7 +29,7 @@ class ksuid():
         else:
             if len(payload_) > BODY_LENGTH:
                 raise Exception("Wrong payload_ length")
-            payload = payload_.rjust(16, '\0')
+            payload = payload_.rjust(16, b'\0')
         if timestamp is None:
             currTime = int(time.time())
         else:
